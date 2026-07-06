@@ -10,11 +10,7 @@
     "rootDir": "src",
     "rewriteRelativeImportExtensions": true,
     "sourceMap": true,
-    "types": ["node"],
-    "paths": {
-      "@global-torque/content-toolkit": ["packages/content-toolkit/dist/index.d.ts"],
-      "@global-torque/content-toolkit/*": ["packages/content-toolkit/dist/*.d.ts"]
-    }
+    "types": ["node"]
   },
   "exclude": ["src/**/*.spec.ts", "src/**/*.test.ts", "vitest.config.ts"]
 }

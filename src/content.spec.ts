@@ -8,8 +8,8 @@ import {
 } from './index';
 import { urlFormat } from '@global-torque/content-toolkit/url';
 
-describe('content-vitepress', () => {
-  it('normalizes legacy loader data through content-core options', () => {
+describe('vitepress-toolkit content adapter', () => {
+  it('normalizes legacy loader data through content-toolkit options', () => {
     const page = {
       url: '/ru/йога/йога.html',
       relativePath: 'ru/йога/йога.md',
