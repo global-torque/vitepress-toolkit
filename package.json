@@ -6,19 +6,19 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "prepack": "pnpm run build",
     "test:run": "vitest run",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
-    "@global-torque/content-toolkit": "github:global-torque/content-toolkit#master",
     "gray-matter": "^4.0.3"
   },
   "peerDependencies": {
+    "@global-torque/content-toolkit": ">=0.1.0 <1.0.0",
     "vitepress": "^1.6.4",
     "vue": "^3.5.0"
   },
   "devDependencies": {
+    "@global-torque/content-toolkit": "github:global-torque/content-toolkit#master",
     "@types/node": "^25.5.0",
     "typescript": "^6.0.2",
     "vitepress": "^1.6.4",
