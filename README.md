@@ -1,26 +1,22 @@
 # @global-torque/vitepress-toolkit
 
+> [!CAUTION]
+> This default-branch source is a quarantined pre-0.2 bridge, not an approved
+> release candidate. Do not install it from GitHub, a branch, or npm. The 0.2
+> cutover remains blocked until its exact content-toolkit release asset exists
+> and the public release issue is independently approved.
+
 VitePress helpers for Global Torque content sites.
 
 This package combines the former VitePress content adapter and shared
 VitePress config helpers into one public package.
 
-## Install
+## Installation Status
 
-```sh
-pnpm add @global-torque/vitepress-toolkit @global-torque/content-toolkit vitepress vue
-```
-
-Before npm publication, GitHub bridge installs may use:
-
-```json
-{
-  "dependencies": {
-    "@global-torque/content-toolkit": "github:global-torque/content-toolkit#master",
-    "@global-torque/vitepress-toolkit": "github:global-torque/vitepress-toolkit#master"
-  }
-}
-```
+There is no supported installation command for this source revision. Mutable
+GitHub dependencies and default-branch installs are prohibited. Wait for an
+approved immutable prerelease asset and its published checksum/provenance
+evidence.
 
 ## Usage
 
