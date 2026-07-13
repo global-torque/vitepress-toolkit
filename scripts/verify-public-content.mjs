@@ -703,9 +703,12 @@ function validateManifest(root, options) {
     const workspace = fs
       .readFileSync(workspacePath, 'utf8')
       .replaceAll('\r\n', '\n');
-    const expectedWorkspace = WORKSPACE_OVERRIDE_PACKAGES.has(manifest.name)
-      ? /^packages:\n {2}- \.\noverrides:\n {2}(?:'js-yaml@4\.1\.1'|"js-yaml@4\.1\.1"|js-yaml@4\.1\.1): 4\.3\.0\n?$/
-      : /^packages:\n {2}- \.\n?$/;
+    const expectedWorkspace =
+      manifest.name === '@global-torque/vitepress-toolkit'
+        ? /^packages:\n {2}- \.\noverrides:\n {2}(?:'js-yaml@4\.1\.1'|"js-yaml@4\.1\.1"|js-yaml@4\.1\.1): 4\.3\.0\n {2}(?:'vitepress@1\.6\.4>vite'|"vitepress@1\.6\.4>vite"|vitepress@1\.6\.4>vite): 6\.4\.3\n?$/
+        : WORKSPACE_OVERRIDE_PACKAGES.has(manifest.name)
+          ? /^packages:\n {2}- \.\noverrides:\n {2}(?:'js-yaml@4\.1\.1'|"js-yaml@4\.1\.1"|js-yaml@4\.1\.1): 4\.3\.0\n?$/
+          : /^packages:\n {2}- \.\n?$/;
     if (!expectedWorkspace.test(workspace)) {
       throw new Error(
         'pnpm-workspace.yaml contains unapproved resolution policy',

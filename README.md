@@ -11,17 +11,44 @@ and Git helpers isolated behind explicit Node-only subpaths.
 Install the exact reviewed npm prerelease and its content peer:
 
 ```sh
-pnpm add @global-torque/vitepress-toolkit@0.2.0-beta.6 @global-torque/content-toolkit@0.2.0-beta.8 vitepress@^1.6.4 vue@^3.5
+pnpm add @global-torque/vitepress-toolkit@0.2.0-beta.6 @global-torque/content-toolkit@0.2.0-beta.8 vitepress@1.6.4 vue@^3.5
 ```
 
-| Contract         | Supported                         |
-| ---------------- | --------------------------------- |
-| Runtime          | ESM-only, ES2022                  |
-| Node.js          | 22.x and 24.x; 26.x informational |
-| VitePress        | `^1.6.4`                          |
-| Vue              | `^3.5.0`                          |
-| Content toolkit  | `>=0.2.0-0 <0.3.0`                |
-| Package managers | npm and pnpm clean-room installs  |
+| Contract         | Supported                            |
+| ---------------- | ------------------------------------ |
+| Runtime          | ESM-only, ES2022                     |
+| Node.js          | 22.x and 24.x; 26.x informational    |
+| VitePress        | `1.6.4` with the Vite override below |
+| Vue              | `^3.5.0`                             |
+| Content toolkit  | `>=0.2.0-0 <0.3.0`                   |
+| Package managers | npm and pnpm clean-room installs     |
+
+VitePress 1.6.4 declares Vite 5, whose latest compatible release has open
+high/moderate development-server advisories. Until VitePress publishes a
+supported patched dependency path, consuming roots must pin its internal Vite
+to the independently tested 6.4.3 mitigation:
+
+```yaml
+# pnpm-workspace.yaml
+overrides:
+  'vitepress@1.6.4>vite': 6.4.3
+```
+
+```json
+{
+  "overrides": {
+    "vitepress@1.6.4": {
+      "vite": "6.4.3"
+    }
+  }
+}
+```
+
+The toolkit and a minimal VitePress production site pass on Node 22 and 24 with
+that exact graph. Vite 6 remains outside VitePress 1.6.4's declared dependency
+range, so hosts must run their own site build before promotion. Root overrides
+do not propagate through npm packages; installing this toolkit does not apply
+the mitigation for a consumer.
 
 ## Runtime boundaries
 

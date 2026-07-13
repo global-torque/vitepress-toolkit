@@ -7,6 +7,9 @@
   provenance workflow.
 - Switched development and release verification to the exact published
   `@global-torque/content-toolkit@0.2.0-beta.8` registry version.
+- Pinned VitePress 1.6.4's internal Vite to tested Vite 6.4.3 in the source
+  workspace, removing the open Vite 5 audit findings; documented the root
+  override downstream consumers must repeat.
 - Superseded the dirty-tree beta.5 implementation artifact.
 
 ## 0.2.0-beta.5 - Superseded local candidate
