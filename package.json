@@ -1,37 +1,75 @@
 {
   "name": "@global-torque/vitepress-toolkit",
-  "private": true,
-  "version": "0.1.0",
+  "private": false,
+  "version": "0.2.0-beta.6",
+  "description": "Pure VitePress content, head, SEO, sitemap, and explicit Node build helpers.",
+  "keywords": [
+    "vitepress",
+    "seo",
+    "sitemap",
+    "static-site"
+  ],
   "license": "MIT",
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "sideEffects": false,
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "build": "pnpm run clean && tsc -p tsconfig.build.json",
+    "lint": "eslint --max-warnings=0 src scripts vitest.config.ts",
+    "format:check": "prettier --check \"src/**/*.ts\" \"scripts/**/*.mjs\" \".github/**/*.{yml,json,md}\" \"docs/{rfcs,ossf}/**/*.md\" \"*.{json,md,yaml}\"",
+    "format:write": "prettier --write \"src/**/*.ts\" \"scripts/**/*.mjs\" \".github/**/*.{yml,json,md}\" \"docs/{rfcs,ossf}/**/*.md\" \"*.{json,md,yaml}\"",
     "test:run": "vitest run",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "api:check": "api-extractor run --verbose && api-extractor run --config api-extractor.node-drafts.json --verbose && api-extractor run --config api-extractor.node-build-metadata.json --verbose",
+    "api:report:update": "pnpm run build && api-extractor run --local --verbose && api-extractor run --config api-extractor.node-drafts.json --local --verbose && api-extractor run --config api-extractor.node-build-metadata.json --local --verbose",
+    "docs:api": "pnpm run api:report:update && api-documenter markdown --input temp/root --output docs/api && api-documenter markdown --input temp/node-drafts --output docs/api-node-drafts && api-documenter markdown --input temp/node-build-metadata --output docs/api-node-build-metadata",
+    "package:lint": "publint && attw --pack . --profile esm-only",
+    "content:check": "node scripts/verify-public-content.mjs",
+    "ci": "pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run test:coverage && pnpm run build && pnpm run api:check && pnpm run package:lint && pnpm run content:check"
   },
   "dependencies": {
     "gray-matter": "^4.0.3"
   },
   "peerDependencies": {
-    "@global-torque/content-toolkit": ">=0.1.0 <1.0.0",
+    "@global-torque/content-toolkit": ">=0.2.0-0 <0.3.0",
     "vitepress": "^1.6.4",
     "vue": "^3.5.0"
   },
   "devDependencies": {
-    "@global-torque/content-toolkit": "github:global-torque/content-toolkit#8badd28b94740e9758acda81d11ec536bd9ebcda",
+    "@global-torque/content-toolkit": "0.2.0-beta.8",
+    "@arethetypeswrong/cli": "0.18.5",
+    "@eslint/js": "^9.39.4",
+    "@microsoft/api-documenter": "7.30.7",
+    "@microsoft/api-extractor": "7.58.9",
     "@types/node": "^25.5.0",
+    "@typescript-eslint/eslint-plugin": "^8.63.0",
+    "@typescript-eslint/parser": "^8.63.0",
+    "@vitest/coverage-v8": "4.1.7",
+    "eslint": "9.39.4",
+    "prettier": "3.9.5",
+    "publint": "0.3.21",
+    "sitemap": "8.0.3",
     "typescript": "^6.0.2",
+    "vite": "6.4.3",
     "vitepress": "^1.6.4",
     "vitest": "4.1.7",
     "vue": "^3.5.39"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/global-torque/vitepress-toolkit.git"
+    "url": "git+https://github.com/global-torque/vitepress-toolkit.git"
   },
   "homepage": "https://github.com/global-torque/vitepress-toolkit#readme",
   "bugs": {
     "url": "https://github.com/global-torque/vitepress-toolkit/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "files": [
     "dist",
@@ -39,6 +77,12 @@
     "LICENSE",
     "NOTICE.md",
     "CHANGELOG.md",
+    "docs/api",
+    "docs/api-node-build-metadata",
+    "docs/api-node-drafts",
+    "etc/vitepress-toolkit.api.md",
+    "etc/vitepress-toolkit-node-build-metadata.api.md",
+    "etc/vitepress-toolkit-node-drafts.api.md",
     "SECURITY.md"
   ],
   "main": "./dist/index.js",
@@ -52,14 +96,6 @@
       "types": "./dist/content.d.ts",
       "import": "./dist/content.js"
     },
-    "./drafts": {
-      "types": "./dist/drafts.d.ts",
-      "import": "./dist/drafts.js"
-    },
-    "./env": {
-      "types": "./dist/env.d.ts",
-      "import": "./dist/env.js"
-    },
     "./head": {
       "types": "./dist/head.d.ts",
       "import": "./dist/head.js"
@@ -71,6 +107,14 @@
     "./sitemap": {
       "types": "./dist/sitemap.d.ts",
       "import": "./dist/sitemap.js"
+    },
+    "./node/drafts": {
+      "types": "./dist/node/drafts.d.ts",
+      "import": "./dist/node/drafts.js"
+    },
+    "./node/build-metadata": {
+      "types": "./dist/node/buildMetadata.d.ts",
+      "import": "./dist/node/buildMetadata.js"
     }
   }
 }
