@@ -1,6 +1,6 @@
 {
   "name": "@global-torque/vitepress-toolkit",
-  "private": false,
+  "private": true,
   "version": "0.1.0",
   "license": "MIT",
   "type": "module",
@@ -18,15 +18,12 @@
     "vue": "^3.5.0"
   },
   "devDependencies": {
-    "@global-torque/content-toolkit": "github:global-torque/content-toolkit#master",
+    "@global-torque/content-toolkit": "github:global-torque/content-toolkit#8badd28b94740e9758acda81d11ec536bd9ebcda",
     "@types/node": "^25.5.0",
     "typescript": "^6.0.2",
     "vitepress": "^1.6.4",
     "vitest": "4.1.7",
     "vue": "^3.5.39"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "repository": {
     "type": "git",
