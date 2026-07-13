@@ -1,73 +1,53 @@
 import { describe, expect, it } from 'vitest';
 import type { ContentData } from 'vitepress';
 
-import {
-  createVitePressFrontmatterRecord,
-  legacyCoverNormalizeFrontmatterOptions,
-  normalizeVitePressFrontmatter,
-} from './index';
-import { urlFormat } from '@global-torque/content-toolkit/url';
+import { normalizeVitePressFrontmatter } from './content';
 
-describe('vitepress-toolkit content adapter', () => {
-  it('normalizes legacy loader data through content-toolkit options', () => {
-    const page = {
-      url: '/ru/йога/йога.html',
-      relativePath: 'ru/йога/йога.md',
-      filePath: 'ru/йога/йога.md',
-      src: 'Йога content',
-      frontmatter: {
-        title: 'Йога',
-        cover: {
-          image: '/images/legacy/yoga.webp',
-        },
-      },
-    } as unknown as ContentData;
+describe('normalizeVitePressFrontmatter', () => {
+  it('returns a detached generic record without mutating frozen page data', () => {
+    const frontmatter = Object.freeze({ title: 'Überblick', draft: false });
+    const page = Object.freeze({
+      url: '/de/überblick.html',
+      relativePath: 'de/überblick.md',
+      filePath: 'de/überblick.md',
+      frontmatter,
+    }) as unknown as ContentData;
 
-    const frontmatter = normalizeVitePressFrontmatter(page);
+    const normalized = normalizeVitePressFrontmatter(page as never);
 
-    expect(frontmatter.url).toBe('/ru/yoga/yoga');
-    expect(frontmatter.rawUrl).toBe('/ru/йога/йога.html');
-    expect(frontmatter.slug).toBe('yoga');
-    expect(frontmatter.image).toBe('/images/legacy/yoga.webp');
-    expect('cover' in frontmatter).toBe(false);
-  });
-
-  it('accepts host-provided URL policy without exporting product-specific profiles', () => {
-    const page = {
-      url: '/products/internal/investor-portal/investor-portal.html',
-      relativePath: 'products/internal/investor-portal/investor-portal.md',
-      filePath: 'products/internal/investor-portal/investor-portal.md',
-      frontmatter: {
-        image: '/images/public/investor-portal.webp',
-      },
-    } as unknown as ContentData;
-
-    const frontmatter = normalizeVitePressFrontmatter(page, {
-      ...legacyCoverNormalizeFrontmatterOptions,
-      urlFormatter: (url) => urlFormat(url, {
-        removeDuplicateSegments: true,
-        removeFolders: ['internal'],
-      }),
+    expect(normalized).toEqual({
+      title: 'Überblick',
+      draft: false,
+      url: '/de/überblick.html',
     });
-
-    expect(frontmatter.url).toBe('/products/investor-portal');
-    expect(frontmatter.image).toBe('/images/public/investor-portal.webp');
+    expect(normalized).not.toBe(frontmatter);
+    expect(page.frontmatter).toBe(frontmatter);
+    expect('image' in normalized).toBe(false);
+    expect('slug' in normalized).toBe(false);
   });
 
-  it('returns a detached record for loader maps', () => {
+  it('rejects legacy nested cover policy by default', () => {
     const page = {
-      url: '/en/example.html',
-      frontmatter: {
-        image: '/images/example.webp',
-      },
+      url: '/legacy',
+      frontmatter: { cover: { image: '/legacy.webp' } },
     } as unknown as ContentData;
+    expect(() => normalizeVitePressFrontmatter(page as never)).toThrow(
+      /strict public contract/,
+    );
+  });
 
-    const frontmatter = createVitePressFrontmatterRecord(page);
-
-    expect(frontmatter).toEqual(expect.objectContaining({
-      image: '/images/example.webp',
-      url: '/en/example.html',
-    }));
-    expect(frontmatter).not.toBe(page.frontmatter);
+  it('accepts explicit host path policy without modifying suffixes', () => {
+    const page = {
+      url: '/Drafts/Guide?Case=Keep#Heading',
+      frontmatter: { custom: true },
+    } as unknown as ContentData;
+    const normalized = normalizeVitePressFrontmatter(page as never, {
+      formatPath: (value) => value.replace('/Drafts/', '/docs/'),
+    });
+    expect(normalized).toEqual({
+      custom: true,
+      url: '/docs/Guide?Case=Keep#Heading',
+      rawUrl: '/Drafts/Guide?Case=Keep#Heading',
+    });
   });
 });
