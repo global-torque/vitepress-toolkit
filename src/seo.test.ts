@@ -190,26 +190,26 @@ describe('createSeoPageDataBuilder', () => {
   });
 
   it('falls through values that become empty after host text stripping', () => {
-    const stripMarkup = (value: string) => value.replace(/<[^>]*>/g, '');
+    const stripText = (value: string) => value.replaceAll('*', '');
     const build = createSeoPageDataBuilder({
       siteUrl: 'https://example.test',
       siteName: 'Fallback Site',
       description: 'Site description',
-      stripText: stripMarkup,
+      stripText,
     });
     const summaryPage = build({
       ...createPage({
-        title: '<b></b>',
-        description: '<i></i>',
+        title: '***',
+        description: '***',
         summary: 'Useful summary',
       }),
-      title: '<strong></strong>',
-      description: '<em></em>',
+      title: '***',
+      description: '***',
     });
     const defaultPage = build({
-      ...createPage({ title: '<b></b>', description: '<i></i>' }),
-      title: '<strong></strong>',
-      description: '<em></em>',
+      ...createPage({ title: '***', description: '***' }),
+      title: '***',
+      description: '***',
     });
 
     expect(findMeta(summaryPage, 'og:title')?.content).toBe('Fallback Site');
