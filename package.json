@@ -1,7 +1,7 @@
 {
   "name": "@global-torque/vitepress-toolkit",
   "private": false,
-  "version": "0.2.0-beta.6",
+  "version": "0.2.0",
   "description": "Pure VitePress content, head, SEO, sitemap, and explicit Node build helpers.",
   "keywords": [
     "vitepress",

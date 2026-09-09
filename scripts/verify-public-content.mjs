@@ -160,7 +160,7 @@ const EXPECTED_PACKAGE_VERSIONS = new Map([
   ['@global-torque/content-toolkit', '0.2.0-beta.8'],
   ['@global-torque/design-tokens', '0.1.0-beta.3'],
   ['@global-torque/markdown-it-wikilinks', '0.2.0-beta.4'],
-  ['@global-torque/vitepress-toolkit', '0.2.0-beta.6'],
+  ['@global-torque/vitepress-toolkit', '0.2.0'],
 ]);
 const EXPECTED_SIDE_EFFECTS = new Map([
   ['@global-torque/admin-toolkit', ['./dist/styles.css']],

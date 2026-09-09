@@ -1,17 +1,16 @@
 # @global-torque/vitepress-toolkit
 
-> **Public 0.2 prerelease:** install the exact beta version. The public API may
-> still change before the stable 0.2 release.
+> **Public release:** `0.2.0`. Install the versioned package from npm.
 
 Pure VitePress content, font-head, SEO, and sitemap builders, with filesystem
 and Git helpers isolated behind explicit Node-only subpaths.
 
 ## Installation and compatibility
 
-Install the exact reviewed npm prerelease and its content peer:
+Install the release and its content peer:
 
 ```sh
-pnpm add @global-torque/vitepress-toolkit@0.2.0-beta.6 @global-torque/content-toolkit@0.2.0-beta.8 vitepress@1.6.4 vue@^3.5
+pnpm add @global-torque/vitepress-toolkit@0.2.0 @global-torque/content-toolkit@0.2.0 vitepress@1.6.4 vue@^3.5
 ```
 
 | Contract         | Supported                            |
