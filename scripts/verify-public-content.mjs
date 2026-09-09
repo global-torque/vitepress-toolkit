@@ -705,7 +705,7 @@ function validateManifest(root, options) {
       .replaceAll('\r\n', '\n');
     const expectedWorkspace =
       manifest.name === '@global-torque/vitepress-toolkit'
-        ? /^packages:\n {2}- \.\noverrides:\n {2}(?:'js-yaml@4\.1\.1'|"js-yaml@4\.1\.1"|js-yaml@4\.1\.1): 4\.3\.0\n {2}(?:'vitepress@1\.6\.4>vite'|"vitepress@1\.6\.4>vite"|vitepress@1\.6\.4>vite): 6\.4\.3\n?$/
+        ? /^packages:\n {2}- \.\noverrides:\n {2}'js-yaml@\^4': 4\.3\.2\n {2}'vitepress@1\.6\.4>vite': 6\.4\.3\n {2}'fast-uri@\^3': 3\.1\.6\n {2}'brace-expansion@\^1': 1\.1\.18\n {2}'brace-expansion@\^5': 5\.0\.9\n {2}'js-yaml@\^3': 3\.15\.2\n {2}'postcss@\^8': 8\.5\.23\n {2}'nanoid@\^3': 3\.3\.18\n$/
         : WORKSPACE_OVERRIDE_PACKAGES.has(manifest.name)
           ? /^packages:\n {2}- \.\noverrides:\n {2}(?:'js-yaml@4\.1\.1'|"js-yaml@4\.1\.1"|js-yaml@4\.1\.1): 4\.3\.0\n?$/
           : /^packages:\n {2}- \.\n?$/;
